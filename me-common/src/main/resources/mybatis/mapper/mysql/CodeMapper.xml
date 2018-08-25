@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.CodeMapper">
+
+    <select id="listCodeByType" parameterType="java.lang.String" resultType="com.me.inner.dto.CodeDTO">
+        SELECT
+            codeId_n AS codeId,
+            type_x AS type,
+            name_x AS name,
+            value_x AS value,
+            desc_x AS description,
+            active_c AS active,
+            crtBy_m AS createBy,
+            crtOn_dt AS createDate
+        FROM ${tablePrefix}code WHERE type_x = #{type} AND active_c = 'A'
+    </select>
+    
+    <select id="getCodeByTypeAndName" resultType="com.me.inner.dto.CodeDTO">
+        SELECT
+            codeId_n AS codeId,
+            type_x AS type,
+            name_x AS name,
+            value_x AS value,
+            desc_x AS description,
+            active_c AS active,
+            crtBy_m AS createBy,
+            crtOn_dt AS createDate
+        FROM ${tablePrefix}code WHERE type_x = #{type} AND name_x = #{name} AND active_c = 'A'
+    </select>
+
+</mapper>

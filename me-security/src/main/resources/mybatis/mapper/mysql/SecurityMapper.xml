@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.SecurityMapper">
+
+    <select id="getUserByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.BaseUserDetails">
+        SELECT
+            userId_n AS userId,
+            username_m AS username,
+            password_x AS password,
+            crtOn_dt AS createDate,
+            crtBy_m AS createBy
+        FROM ${tablePrefix}user WHERE username_m = #{username} AND enabled_c = 'Y'
+    </select>
+
+    <select id="getHomePageByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceDTO">
+        SELECT
+            res.resId_n AS resourceId,
+            res.resType_x AS resourceType,
+            res.resPath_x AS resourcePath,
+            res.resDesc_x AS resourceDescription,
+            res.crtOn_dt AS createDate,
+            res.crtBy_m AS createBy
+        FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}user2role ue ON u.userId_n = ue.userId_n
+        LEFT JOIN ${tablePrefix}role2res us ON ue.roleId_n = us.roleId_n
+        LEFT JOIN ${tablePrefix}resource res ON us.resId_n = res.resId_n
+        WHERE u.username_m = #{username} AND res.resType_x = 'homePage' AND res.enabled_c = 'Y' AND u.enabled_c = 'Y'
+    </select>
+
+    <select id="listRoleByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.RoleDTO">
+        SELECT
+            role.roleId_n AS roleId,
+            role.roleName_m AS roleName,
+            role.crtBy_m AS createBy,
+            role.crtOn_dt AS createDate
+        FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}user2role ur ON u.userId_n = ur.userId_n
+        LEFT JOIN ${tablePrefix}role role ON ur.roleId_n = role.roleId_n
+        WHERE u.username_m = #{username} AND role.enabled_c = 'Y' AND u.enabled_c = 'Y'
+    </select>
+
+    <select id="listResourceByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceDTO">
+        SELECT
+            res.resId_n AS resourceId,
+            res.resType_x AS resourceType,
+            res.resPath_x AS resourcePath,
+            res.resDesc_x AS resourceDescription,
+            res.crtOn_dt AS createDate,
+            res.crtBy_m AS createBy
+        FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}user2role ue ON u.userId_n = ue.userId_n
+        LEFT JOIN ${tablePrefix}role2res us ON ue.roleId_n = us.roleId_n
+        LEFT JOIN ${tablePrefix}resource res ON us.resId_n = res.resId_n
+        WHERE u.username_m = #{username} AND res.enabled_c = 'Y' AND u.enabled_c = 'Y'
+    </select>
+
+    <insert id="saveLoginHistory" parameterType="com.me.inner.dto.LoginHistoryDTO">
+        INSERT INTO ${tablePrefix}loginhistory
+        (
+            username_m,
+            ip_x,
+            status_x,
+            crtOn_dt
+        )
+        VALUES
+        (
+            #{username, jdbcType=INTEGER},
+            #{ip, jdbcType=VARCHAR},
+            #{status, jdbcType=VARCHAR},
+            #{createDate, jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+</mapper>
