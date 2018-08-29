@@ -1,25 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-          http://www.springframework.org/schema/security
-          http://www.springframework.org/schema/security/spring-security-4.2.xsd">
-
-    <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider ref="authenticationProvider"/>
-    </sec:authentication-manager>
-
-    <bean id="loginFilter" class="com.me.inner.filter.CustomAuthenticationFilter">
-        <property name="filterProcessesUrl" value="/checklogin"/>
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="authenticationSuccessHandler" ref="successHandler"/>
-        <property name="authenticationFailureHandler" ref="failHandler"/>
-    </bean>
-
-    <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <constructor-arg name="loginFormUrl" value="/login"/>
-    </bean>
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
     <bean id="authenticationProvider" class="com.me.inner.provider.AuthenticationProvider">
         <property name="userDetailsService" ref="userDetailService"/>
@@ -30,14 +12,6 @@
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11" />
-    </bean>
-
-    <bean id="exceptionTranslationFilter"
-          class="org.springframework.security.web.access.ExceptionTranslationFilter">
-        <constructor-arg>
-            <ref bean="authenticationEntryPoint" />
-        </constructor-arg>
-        <property name="accessDeniedHandler" ref="accessDeniedHandler" />
     </bean>
 
     <bean id="successHandler" class="com.me.inner.handle.AuthenticationSuccessHandler">
