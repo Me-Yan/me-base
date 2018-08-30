@@ -13,4 +13,6 @@ public interface CodeMapper {
     List<CodeDTO> listCodeByType(String type);
 
     CodeDTO getCodeByTypeAndName(@Param("type") String type, @Param("name") String name);
+
+    List<CodeDTO> listAllCode();
 }

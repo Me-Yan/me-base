@@ -31,4 +31,10 @@ public class CodeServiceImpl implements CodeService {
 
         return codeMapper.getCodeByTypeAndName(type, name);
     }
+
+    public List<CodeDTO> listAllCode() {
+        logger.debug("Execute Method listAllCode...");
+
+        return codeMapper.listAllCode();
+    }
 }

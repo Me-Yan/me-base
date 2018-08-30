@@ -13,6 +13,7 @@
     <modules>
         <module>me-common</module>
         <module>me-security</module>
+        <module>me-user</module>
     </modules>
 
 </project>

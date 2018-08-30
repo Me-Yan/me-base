@@ -13,4 +13,6 @@ public interface CodeService {
     List<CodeDTO> listCodeByType(String type);
 
     CodeDTO getCodeByTypeAndName(String type, String name);
+
+    List<CodeDTO> listAllCode();
 }
