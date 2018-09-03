@@ -2,6 +2,7 @@ package com.me.inner.service;
 
 
 import com.me.inner.dto.CodeDTO;
+import com.me.inner.dto.PaginationDTO;
 
 import java.util.List;
 
@@ -10,9 +11,10 @@ import java.util.List;
  */
 public interface CodeService {
 
-    List<CodeDTO> listCodeByType(String type);
+    List<String> listType();
+
+    PaginationDTO listCodeByType(String type, PaginationDTO pagination);
 
     CodeDTO getCodeByTypeAndName(String type, String name);
 
-    List<CodeDTO> listAllCode();
 }

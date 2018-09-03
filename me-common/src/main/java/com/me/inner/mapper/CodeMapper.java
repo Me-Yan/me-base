@@ -1,6 +1,7 @@
 package com.me.inner.mapper;
 
 import com.me.inner.dto.CodeDTO;
+import com.me.inner.dto.PaginationDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
  */
 public interface CodeMapper {
 
-    List<CodeDTO> listCodeByType(String type);
+    List<String> listType();
+
+    List<CodeDTO> listCodeByType(@Param("type") String type, @Param("pagination") PaginationDTO pagination);
 
     CodeDTO getCodeByTypeAndName(@Param("type") String type, @Param("name") String name);
-
-    List<CodeDTO> listAllCode();
 }
