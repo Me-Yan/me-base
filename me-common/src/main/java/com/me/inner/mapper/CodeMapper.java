@@ -16,4 +16,8 @@ public interface CodeMapper {
     List<CodeDTO> listCodeByType(@Param("type") String type, @Param("pagination") PaginationDTO pagination);
 
     CodeDTO getCodeByTypeAndName(@Param("type") String type, @Param("name") String name);
+
+    void saveCode(CodeDTO code);
+
+    void deleteCode(Integer codeId);
 }

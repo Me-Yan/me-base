@@ -4,16 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Me on 2018/8/18.
+ * Created by Me on 2018/9/4.
  */
 public class RoleDTO implements Serializable {
 
-    private static final long serialVersionUID = 5372104893741963345L;
+    private static final long serialVersionUID = -4857655487506781183L;
 
     private Integer roleId;
     private String roleName;
-    private String createBy;
+    private String enabled;
     private Date createDate;
+    private String createBy;
 
     public Integer getRoleId() {
         return roleId;
@@ -31,12 +32,12 @@ public class RoleDTO implements Serializable {
         this.roleName = roleName;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getEnabled() {
+        return enabled;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 
     public Date getCreateDate() {
@@ -45,5 +46,13 @@ public class RoleDTO implements Serializable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }

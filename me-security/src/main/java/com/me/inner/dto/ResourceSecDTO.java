@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by Me on 2018/8/18.
  */
-public class ResourceDTO implements Serializable {
+public class ResourceSecDTO implements Serializable {
 
     private static final long serialVersionUID = 3952089689979912636L;
 

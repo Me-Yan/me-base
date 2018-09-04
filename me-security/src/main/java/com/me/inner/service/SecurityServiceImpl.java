@@ -1,9 +1,9 @@
 package com.me.inner.service;
 
 import com.me.inner.dto.BaseUserDetails;
-import com.me.inner.dto.LoginHistoryDTO;
-import com.me.inner.dto.ResourceDTO;
-import com.me.inner.dto.RoleDTO;
+import com.me.inner.dto.LoginHistorySecDTO;
+import com.me.inner.dto.ResourceSecDTO;
+import com.me.inner.dto.RoleSecDTO;
 import com.me.inner.mapper.SecurityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,16 +25,16 @@ public class SecurityServiceImpl implements SecurityService {
     public BaseUserDetails getUserByUsername(String username) {
         BaseUserDetails user = securityMapper.getUserByUsername(username);
         if (null != user) {
-            ResourceDTO homeResource = securityMapper.getHomePageByUsername(username);
+            ResourceSecDTO homeResource = securityMapper.getHomePageByUsername(username);
             if (null != homeResource) {
                 user.setHomePage(homeResource.getResourcePath());
             }
 
-            List<RoleDTO> roleList = securityMapper.listRoleByUsername(username);
+            List<RoleSecDTO> roleList = securityMapper.listRoleByUsername(username);
 
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             if (null != roleList && !roleList.isEmpty()) {
-                for (RoleDTO role : roleList) {
+                for (RoleSecDTO role : roleList) {
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
                     authorities.add(authority);
                 }
@@ -46,7 +46,7 @@ public class SecurityServiceImpl implements SecurityService {
         return user;
     }
 
-    public void saveLoginHistory(LoginHistoryDTO loginHistory) {
+    public void saveLoginHistory(LoginHistorySecDTO loginHistory) {
         securityMapper.saveLoginHistory(loginHistory);
     }
 }

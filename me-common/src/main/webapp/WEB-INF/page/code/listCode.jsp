@@ -18,7 +18,7 @@
             <div class="page-header-title">Code</div>
         </div>
     </div>
-    <div class="row form-inline">
+    <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
                 <label for="type">类型 :</label>
@@ -56,7 +56,7 @@
             };
         }
 
-        var serialNo = 0;
+        var serialNo = 1;
         function initBootstrapTable() {
             $("#codeTable").bootstrapTable({
                 url: url,

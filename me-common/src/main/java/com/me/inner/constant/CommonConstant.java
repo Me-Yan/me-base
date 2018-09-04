@@ -13,4 +13,12 @@ public class CommonConstant {
         String LIMIT = "limit";
         Integer DEFAULT_LIMIT = 10;
     }
+
+    /**
+     * Yes or No
+     */
+    public interface YES_NO {
+        String YES = "Y";
+        String NO = "N";
+    }
 }

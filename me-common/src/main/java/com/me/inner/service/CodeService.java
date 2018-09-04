@@ -17,4 +17,8 @@ public interface CodeService {
 
     CodeDTO getCodeByTypeAndName(String type, String name);
 
+    void saveCode(CodeDTO code);
+
+    void deleteCode(Integer codeId);
+
 }

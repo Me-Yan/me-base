@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.UserMapper">
+    
+    <resultMap id="userMap" type="com.me.inner.dto.UserDTO">
+        <id property="userId" column="userId_n" jdbcType="INTEGER"/>
+        <result property="username" column="username_m" jdbcType="VARCHAR"/>
+        <result property="enabled" column="enabled_c" jdbcType="CHAR"/>
+        <result property="createDate" column="crtOn_dt" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="crtBy_m" jdbcType="VARCHAR"/>
+        <collection property="roleList" column="userId_n" ofType="com.me.inner.dto.RoleDTO" javaType="java.util.ArrayList">
+            <id property="roleId" column="roleId_n" jdbcType="INTEGER"/>
+            <result property="roleName" column="roleName_m" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="resourceList" column="userId_n" ofType="com.me.inner.dto.ResourceDTO" javaType="java.util.ArrayList">
+            <id property="resourceId" column="resId_n" jdbcType="INTEGER"/>
+            <result property="type" column="resType_x" jdbcType="VARCHAR"/>
+            <result property="path" column="resPath_x" jdbcType="VARCHAR"/>
+            <result property="description" column="resDesc_x" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <select id="listUserByRole" resultMap="userMap">
+        SELECT DISTINCT
+            u.userId_n AS userId,
+            u.username_m AS username,
+            u.enabled_c AS enabled,
+            u.crtOn_dt AS createDate,
+            u.crtBy_m AS createBy,
+            r.roleId_n AS roleId,
+            r.roleName_m AS roleName,
+            u.resId_n AS resourceId,
+            u.resType_x AS type,
+            u.resPath_x AS path,
+            u.resDesc_x AS description
+        FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}user2role ur ON u.userId_n = ur.userId_n
+        LEFT JOIN ${tablePrefix}role r ON ur.roleId_n = r.roleId_n
+        WHERE enabled_c = 'Y'
+        <if test="roleName!='' and roleName!=null">
+            AND r.roleName_m = #{roleName}
+        </if>
+         LIMIT #{pagination,begin}, #{pagination,limit}
+    </select>
+
+</mapper>

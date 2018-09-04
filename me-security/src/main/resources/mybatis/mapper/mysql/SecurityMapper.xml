@@ -14,7 +14,7 @@
         FROM ${tablePrefix}user WHERE username_m = #{username} AND enabled_c = 'Y'
     </select>
 
-    <select id="getHomePageByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceDTO">
+    <select id="getHomePageByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceSecDTO">
         SELECT
             res.resId_n AS resourceId,
             res.resType_x AS resourceType,
@@ -29,7 +29,7 @@
         WHERE u.username_m = #{username} AND res.resType_x = 'homePage' AND res.enabled_c = 'Y' AND u.enabled_c = 'Y'
     </select>
 
-    <select id="listRoleByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.RoleDTO">
+    <select id="listRoleByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.RoleSecDTO">
         SELECT
             role.roleId_n AS roleId,
             role.roleName_m AS roleName,
@@ -41,7 +41,7 @@
         WHERE u.username_m = #{username} AND role.enabled_c = 'Y' AND u.enabled_c = 'Y'
     </select>
 
-    <select id="listResourceByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceDTO">
+    <select id="listResourceByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceSecDTO">
         SELECT
             res.resId_n AS resourceId,
             res.resType_x AS resourceType,
@@ -56,7 +56,7 @@
         WHERE u.username_m = #{username} AND res.enabled_c = 'Y' AND u.enabled_c = 'Y'
     </select>
 
-    <insert id="saveLoginHistory" parameterType="com.me.inner.dto.LoginHistoryDTO">
+    <insert id="saveLoginHistory" parameterType="com.me.inner.dto.LoginHistorySecDTO">
         INSERT INTO ${tablePrefix}loginhistory
         (
             username_m,

@@ -39,4 +39,31 @@
         FROM ${tablePrefix}code WHERE type_x = #{type} AND name_x = #{name} AND active_c = 'A'
     </select>
 
+    <select id="saveCode" parameterType="com.me.inner.dto.CodeDTO">
+        INSERT INTO ${tablePrefix}code
+        (
+            type_x,
+            name_x,
+            value_x,
+            desc_x,
+            active_c,
+            crtBy_m,
+            crtOn_dt
+        )
+        VALUES
+        (
+            #{type, jdbcType=VARCHAR},
+            #{name, jdbcType=VARCHAR},
+            #{value, jdbcType=VARCHAR},
+            #{description, jdbcType=VARCHAR},
+            #{active, jdbcType=CHAR},
+            #{createBy, jdbcType=VARCHAR},
+            #{createDate, jdbcType=TIMESTAMP}
+        )
+    </select>
+
+    <update id="deleteCode" parameterType="java.lang.Integer">
+        UPDATE ${tablePrefix}code SET active_c = 'I' WHERE codeId_n = #{codeId}
+    </update>
+
 </mapper>

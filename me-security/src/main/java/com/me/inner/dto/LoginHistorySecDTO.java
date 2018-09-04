@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by Me on 2018/8/18.
  */
-public class LoginHistoryDTO implements Serializable {
+public class LoginHistorySecDTO implements Serializable {
 
     private static final long serialVersionUID = -2574822467665142035L;
 

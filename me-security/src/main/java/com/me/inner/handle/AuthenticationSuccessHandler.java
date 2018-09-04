@@ -1,7 +1,7 @@
 package com.me.inner.handle;
 
 import com.me.inner.dto.BaseUserDetails;
-import com.me.inner.dto.LoginHistoryDTO;
+import com.me.inner.dto.LoginHistorySecDTO;
 import com.me.inner.service.SecurityService;
 import com.me.inner.token.CustomAuthenticationToken;
 import org.slf4j.Logger;
@@ -65,7 +65,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 
         String ip = getIpAddress(request);
 
-        LoginHistoryDTO loginHistory = new LoginHistoryDTO();
+        LoginHistorySecDTO loginHistory = new LoginHistorySecDTO();
         loginHistory.setUsername(username);
         loginHistory.setIp(ip);
         loginHistory.setStatus("Passed");

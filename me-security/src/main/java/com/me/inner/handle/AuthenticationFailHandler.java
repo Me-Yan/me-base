@@ -1,6 +1,6 @@
 package com.me.inner.handle;
 
-import com.me.inner.dto.LoginHistoryDTO;
+import com.me.inner.dto.LoginHistorySecDTO;
 import com.me.inner.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHan
 
         String ip = getIpAddress(request);
 
-        LoginHistoryDTO loginHistory = new LoginHistoryDTO();
+        LoginHistorySecDTO loginHistory = new LoginHistorySecDTO();
         loginHistory.setUsername(username);
         loginHistory.setIp(ip);
         loginHistory.setStatus("Failed");
