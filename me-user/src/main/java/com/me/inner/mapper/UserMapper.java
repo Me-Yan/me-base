@@ -20,13 +20,21 @@ public interface UserMapper {
 
     void saveUser(UserDTO user);
 
+    void saveUser2Role(List<User2RoleDTO> user2RoleList);
+
     void deleteUser(Integer userId);
+
+    void deleteUser2Role(Integer userId);
 
     void saveRole(RoleDTO role);
 
     void deleteRole(Integer roleId);
 
+    void deleteRole2Res(@Param("roleId") Integer roleId, @Param("resId") Integer resId);
+
     void saveResource(ResourceDTO resource);
+
+    void saveRole2Resource(Role2ResourceDTO role2Resource);
 
     void deleteResource(Integer resourceId);
 

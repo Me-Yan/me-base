@@ -102,4 +102,5 @@ public class UserDTO implements Serializable {
     public void setResourceList(List<ResourceDTO> resourceList) {
         this.resourceList = resourceList;
     }
+
 }

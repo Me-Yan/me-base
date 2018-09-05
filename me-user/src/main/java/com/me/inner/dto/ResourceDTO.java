@@ -18,6 +18,8 @@ public class ResourceDTO implements Serializable {
     private Date createDate;
     private String createBy;
 
+    private RoleDTO role;
+
     public Integer getResourceId() {
         return resourceId;
     }
@@ -72,5 +74,13 @@ public class ResourceDTO implements Serializable {
 
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
+    }
+
+    public RoleDTO getRole() {
+        return role;
+    }
+
+    public void setRole(RoleDTO role) {
+        this.role = role;
     }
 }

@@ -38,11 +38,159 @@
         FROM ${tablePrefix}user u
         LEFT JOIN ${tablePrefix}user2role ur ON u.userId_n = ur.userId_n
         LEFT JOIN ${tablePrefix}role r ON ur.roleId_n = r.roleId_n
-        WHERE enabled_c = 'Y'
+        WHERE u.enabled_c = 'Y'
         <if test="roleName!='' and roleName!=null">
             AND r.roleName_m = #{roleName}
         </if>
          LIMIT #{pagination,begin}, #{pagination,limit}
     </select>
+
+    <select id="listRole" resultType="com.me.inner.dto.RoleDTO">
+        SELECT
+            roleId_n AS roleId,
+            roleName_m AS roleName,
+        FROM ${tablePrefix}role WHERE enabled_c = 'Y'
+    </select>
+
+    <select id="listResource" resultType="com.me.inner.dto.ResourceDTO">
+        SELECT
+            resId_n AS resourceId,
+            resType_x AS type,
+            resPath_x AS path,
+            resDesc_x AS description
+        FROM ${tablePrefix}resource WHERE enabled_c = 'Y'
+    </select>
+    
+    <select id="listLoginHistory" parameterType="com.me.inner.dto.PaginationDTO" resultType="com.me.inner.dto.LoginHistoryDTO">
+        SELECT
+            id_n AS id,
+            username_m AS username,
+            ip_x AS ip,
+            status_x AS status,
+            crtOn_dt AS createDate
+        FROM ${tablePrefix}loginhistory
+        LIMIT #{pagination,begin}, #{pagination,limit}
+    </select>
+    
+    <insert id="saveUser" parameterType="com.me.inner.dto.UserDTO" keyColumn="userId_n" keyProperty="userId" useGeneratedKeys="true">
+        INSERT INTO ${tablePrefix}user
+        (
+            username_m,
+            password_x,
+            enabled_c,
+            crtOn_dt,
+            crtBy_m
+        )
+        VALUES
+        (
+            #{username, jdbcType=VARCHAR},
+            #{password, jdbcType=VARCHAR},
+            #{enabled, jdbcType=CHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="saveUser2Role" parameterType="java.util.List">
+        INSERT INTO ${tablePrefix}role2res
+        (
+            userId_n,
+            roleId_n,
+            crtOn_dt,
+            crtBy_m
+        )
+        VALUES
+        <foreach collection="list" item="user2Role" separator=",">
+            (
+                #{user2Role.userId, jdbcType=INTEGER},
+                #{user2Role.roleId, jdbcType=INTEGER},
+                #{user2Role.createDate, jdbcType=TIMESTAMP},
+                #{user2Role.createBy, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <update id="deleteUser" parameterType="java.lang.Integer">
+        UPDATE ${tablePrefix}user SET enabled_c = 'N' WHERE userId_n = #{userId}
+    </update>
+
+    <delete id="deleteUser2Role" parameterType="java.lang.Integer">
+        DELETE FROM ${tablePrefix}user2role WHERE userId_n = #{userId}
+    </delete>
+
+    <insert id="saveRole" parameterType="com.me.inner.dto.RoleDTO" keyColumn="roleId_n" keyProperty="roleId" useGeneratedKeys="true">
+        INSERT INTO ${tablePrefix}role
+        (
+            roleName_m,
+            enabled_c,
+            crtOn_dt,
+            crtBy_m
+        )
+        VALUES
+        (
+            #{roleName, jdbcType=VARCHAR},
+            #{enabled, jdbcType=CHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="deleteRole" parameterType="java.lang.Integer">
+        UPDATE ${tablePrefix}role SET enabled_c = 'N' WHERE roleId_n = #{roleId}
+    </update>
+    
+    <delete id="deleteRole2Res">
+        DELETE FROM ${tablePrefix}role2user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="roleId!=null">
+                AND roleId_n = #{roleId}
+            </if>
+            <if test="resId!=null">
+                AND resId_n = #{resId}
+            </if>
+        </trim>
+    </delete>
+
+    <insert id="saveResource" parameterType="com.me.inner.dto.ResourceDTO" keyColumn="resId_n" keyProperty="resourceId" useGeneratedKeys="true">
+        INSERT INTO ${tablePrefix}resource
+        (
+            resType_x,
+            resPath_x,
+            resDesc_x,
+            enabled_c,
+            crtOn_dt,
+            crtBy_m
+        )
+        VALUES
+        (
+            #{type, jdbcType=VARCHAR},
+            #{path, jdbcType=VARCHAR},
+            #{description, jdbcType=VARCHAR},
+            #{enabled, jdbcType=CHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <insert id="saveRole2Resource" parameterType="com.me.inner.dto.Role2ResourceDTO">
+        INSERT INTO ${tablePrefix}role2res
+        (
+            roleId_n,
+            resId_n,
+            crtOn_dt,
+            crtBy_m
+        )
+        VALUES
+        (
+            #{roleId, jdbcType=INTEGER},
+            #{resourceId, jdbcType=INTEGER},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <update id="deleteResource" parameterType="java.lang.Integer">
+        UPDATE ${tablePrefix}resource SET enabled_c = 'N' WHERE resId_n = #{resourceId}
+    </update>
 
 </mapper>
