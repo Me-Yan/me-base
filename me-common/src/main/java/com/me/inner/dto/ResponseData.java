@@ -14,6 +14,10 @@ public class ResponseData implements Serializable {
 
     public ResponseData(){}
 
+    public ResponseData(Boolean success) {
+        this.success = success;
+    }
+
     public ResponseData(Boolean success, String message) {
         this.success = success;
         this.message = message;

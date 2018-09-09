@@ -1,8 +1,10 @@
 package com.me.inner.service;
 
 import com.google.common.collect.Lists;
+import com.me.inner.constant.CommonConstant;
 import com.me.inner.dto.*;
 import com.me.inner.mapper.UserMapper;
+import com.me.inner.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<UserDTO> listUserByRole(String roleName, PaginationDTO pagination) {
+    public PaginationDTO listUserByRole(String roleName, PaginationDTO pagination) {
         logger.debug("Execute Method listUserByRole...");
 
-        return userMapper.listUserByRole(roleName, pagination);
+        Integer totalCount = userMapper.countUserByRole(roleName);
+        Integer totalPage = 0;
+        List<UserDTO> userList = Lists.newArrayList();
+
+        if (totalCount!=null && totalCount!=0) {
+            userList = userMapper.listUserByRole(roleName, pagination);
+            totalPage = totalCount/pagination.getLimit();
+        }
+
+        pagination.setTotalPage(totalPage);
+        pagination.setDataList(userList);
+
+        return pagination;
     }
 
     public List<RoleDTO> listRole() {
@@ -44,19 +58,38 @@ public class UserServiceImpl implements UserService {
         return userMapper.listResource();
     }
 
-    public List<LoginHistoryDTO> listLoginHistory(PaginationDTO pagination) {
+    public PaginationDTO listLoginHistory(PaginationDTO pagination) {
         logger.debug("Execute Method listLoginHistory...");
 
-        return userMapper.listLoginHistory(pagination);
+        Integer totalCount = userMapper.countLoginHistory();
+        Integer totalPage = 0;
+        List<LoginHistoryDTO> loginHistoryList = Lists.newArrayList();
+
+        if (totalCount!=null && totalCount!=0) {
+            loginHistoryList = userMapper.listLoginHistory(pagination);
+            totalPage = totalCount / pagination.getLimit();
+        }
+
+        pagination.setTotalPage(totalPage);
+        pagination.setDataList(loginHistoryList);
+
+        return pagination;
     }
 
     public void saveUser(UserDTO user) {
         logger.debug("Execute Method saveUser...");
 
+        String encodePassword = CommonUtil.encodePassword(user.getPassword());
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Date curDate = new Date();
 
+        user.setCreateBy(userDetails.getUsername());
+        user.setCreateDate(new Date());
+        user.setPassword(encodePassword);
+        user.setEnabled(CommonConstant.YES_NO.YES);
+
         userMapper.saveUser(user);
+
         if (!CollectionUtils.isEmpty(user.getRoleList())) {
             List<User2RoleDTO> user2RoleList = Lists.newArrayList();
             for (RoleDTO role : user.getRoleList()) {
@@ -71,7 +104,6 @@ public class UserServiceImpl implements UserService {
 
             userMapper.saveUser2Role(user2RoleList);
         }
-
     }
 
     public void deleteUser(Integer userId) {
@@ -83,6 +115,12 @@ public class UserServiceImpl implements UserService {
 
     public void saveRole(RoleDTO role) {
         logger.debug("Execute Method saveRole...");
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        role.setEnabled(CommonConstant.YES_NO.YES);
+        role.setCreateDate(new Date());
+        role.setCreateBy(userDetails.getUsername());
 
         userMapper.saveRole(role);
     }
@@ -99,9 +137,14 @@ public class UserServiceImpl implements UserService {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        resource.setEnabled(CommonConstant.YES_NO.YES);
+        resource.setCreateDate(new Date());
+        resource.setCreateBy(userDetails.getUsername());
+
         userMapper.saveResource(resource);
 
         Role2ResourceDTO role2Resource = new Role2ResourceDTO();
+        role2Resource.setResourceId(resource.getResourceId());
         role2Resource.setRoleId(resource.getRole().getRoleId());
         role2Resource.setCreateDate(new Date());
         role2Resource.setCreateBy(userDetails.getUsername());
@@ -114,5 +157,18 @@ public class UserServiceImpl implements UserService {
 
         userMapper.deleteResource(resourceId);
         userMapper.deleteRole2Res(null, resourceId);
+    }
+
+    public void updatePassword(UserDTO user) {
+        logger.debug("Execute Method updatePassword...");
+
+        String encodePassword = CommonUtil.encodePassword(user.getPassword());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        user.setPassword(encodePassword);
+        user.setUpdateBy(userDetails.getUsername());
+        user.setUpdateDate(new Date());
+
+        userMapper.resetPassword(user);
     }
 }

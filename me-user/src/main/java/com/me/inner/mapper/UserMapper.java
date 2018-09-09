@@ -10,11 +10,15 @@ import java.util.List;
  */
 public interface UserMapper {
 
+    Integer countUserByRole(String roleName);
+
     List<UserDTO> listUserByRole(@Param("roleName") String roleName, @Param("pagination") PaginationDTO pagination);
 
     List<RoleDTO> listRole();
 
     List<ResourceDTO> listResource();
+
+    Integer countLoginHistory();
 
     List<LoginHistoryDTO> listLoginHistory(PaginationDTO pagination);
 
@@ -38,4 +42,5 @@ public interface UserMapper {
 
     void deleteResource(Integer resourceId);
 
+    void resetPassword(UserDTO user);
 }

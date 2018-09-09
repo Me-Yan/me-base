@@ -5,6 +5,7 @@ import com.me.inner.dto.PaginationDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CommonUtil {
 
-    private Logger logger = LoggerFactory.getLogger(CommonUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     public static PaginationDTO packagePagination(HttpServletRequest request) {
+        logger.debug("Execute Method packagePagination...");
 
         PaginationDTO pagination = new PaginationDTO();
 
@@ -39,5 +41,11 @@ public class CommonUtil {
         pagination.setBegin(begin);
 
         return pagination;
+    }
+
+    public static String encodePassword(String originPassword) {
+        logger.debug("Execute Method encodePassword...");
+
+        return new BCryptPasswordEncoder(11).encode(originPassword);
     }
 }

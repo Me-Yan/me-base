@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<UserDTO> listUserByRole(@Param("roleName") String roleName, @Param("pagination") PaginationDTO pagination);
+    PaginationDTO listUserByRole(@Param("roleName") String roleName, @Param("pagination") PaginationDTO pagination);
 
     List<RoleDTO> listRole();
 
     List<ResourceDTO> listResource();
 
-    List<LoginHistoryDTO> listLoginHistory(PaginationDTO pagination);
+    PaginationDTO listLoginHistory(PaginationDTO pagination);
 
     void saveUser(UserDTO user);
 
@@ -29,4 +29,6 @@ public interface UserService {
     void saveResource(ResourceDTO resource);
 
     void deleteResource(Integer resourceId);
+
+    void updatePassword(UserDTO user);
 }

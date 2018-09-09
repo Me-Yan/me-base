@@ -22,6 +22,17 @@
         </collection>
     </resultMap>
 
+    <select id="countUserByRole" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}user2role ur ON u.userId_n = ur.userId_n
+        LEFT JOIN ${tablePrefix}role r ON ur.roleId_n = r.roleId_n
+        WHERE u.enabled_c = 'Y'
+        <if test="roleName!='' and roleName!=null">
+            AND r.roleName_m = #{roleName}
+        </if>
+    </select>
+
     <select id="listUserByRole" resultMap="userMap">
         SELECT DISTINCT
             u.userId_n AS userId,
@@ -59,6 +70,10 @@
             resPath_x AS path,
             resDesc_x AS description
         FROM ${tablePrefix}resource WHERE enabled_c = 'Y'
+    </select>
+
+    <select id="countLoginHistory" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM ${tablePrefix}loginhistory
     </select>
     
     <select id="listLoginHistory" parameterType="com.me.inner.dto.PaginationDTO" resultType="com.me.inner.dto.LoginHistoryDTO">
@@ -191,6 +206,14 @@
     
     <update id="deleteResource" parameterType="java.lang.Integer">
         UPDATE ${tablePrefix}resource SET enabled_c = 'N' WHERE resId_n = #{resourceId}
+    </update>
+
+    <update id="resetPassword" parameterType="com.me.inner.dto.UserDTO">
+        UPDATE ${tablePrefix}user SET
+        password_x = #{password},
+        updOn_dt = #{updateDate},
+        updBy_m = #{updateBy}
+        WHERE userId_n = #{userId}
     </update>
 
 </mapper>
