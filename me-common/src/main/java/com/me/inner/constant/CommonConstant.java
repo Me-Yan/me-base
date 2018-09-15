@@ -21,4 +21,21 @@ public class CommonConstant {
         String YES = "Y";
         String NO = "N";
     }
+
+    /**
+     * X-Frame-Options: DENY, SAMEORIGIN, ALLOW-FROM
+     */
+    public interface FrameOption {
+        String DENY = "DENY";
+        String SAMEORIGIN = "SAMEORIGIN";
+        String ALLOW_FROM = "ALLOW-FROM";
+    }
+
+    /**
+     * Active: A, I
+     */
+    public interface IN_ACTIVE {
+        String ACTIVE = "A";
+        String IN_ACTIVE = "I";
+    }
 }

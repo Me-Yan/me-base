@@ -26,7 +26,7 @@
         LEFT JOIN ${tablePrefix}user2role ue ON u.userId_n = ue.userId_n
         LEFT JOIN ${tablePrefix}role2res us ON ue.roleId_n = us.roleId_n
         LEFT JOIN ${tablePrefix}resource res ON us.resId_n = res.resId_n
-        WHERE u.username_m = #{username} AND res.resType_x = 'homePage' AND res.enabled_c = 'Y' AND u.enabled_c = 'Y'
+        WHERE u.username_m = #{username} AND res.resType_x = 'HOME' AND res.enabled_c = 'Y' AND u.enabled_c = 'Y'
     </select>
 
     <select id="listRoleByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.RoleSecDTO">

@@ -19,7 +19,7 @@
     </bean>
 
     <bean id="failHandler" class="com.me.inner.handle.AuthenticationFailHandler">
-        <property name="defaultFailureUrl" value="/logout"/>
+        <property name="defaultFailureUrl" value="/login?error"/>
     </bean>
 
     <bean id="accessDeniedHandler"

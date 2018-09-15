@@ -24,6 +24,9 @@ public class UserDetailService implements UserDetailsService {
         UserDetails user = null;
         try {
             user = securityService.getUserByUsername(username);
+            if (user == null) {
+                throw new UsernameNotFoundException("can not find the user.");
+            }
         } catch (UsernameNotFoundException e) {
             logger.error("exception that not find the user ", e);
             throw e;
