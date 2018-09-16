@@ -30,6 +30,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)
             throws ServletException, IOException {
+        logger.debug("Execute Method onAuthenticationSuccess...");
 
         CustomAuthenticationToken customAuthenticationToken = (CustomAuthenticationToken) authentication;
         BaseUserDetails userDetails = (BaseUserDetails) customAuthenticationToken.getPrincipal();
@@ -62,6 +63,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     }
 
     private void saveLoginHistory(HttpServletRequest request, String username) {
+        logger.debug("Execute Method saveLoginHistory...");
 
         String ip = getIpAddress(request);
 
@@ -75,6 +77,8 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     }
 
     private String getIpAddress(HttpServletRequest request) {
+        logger.debug("Execute Method getIpAddress...");
+
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

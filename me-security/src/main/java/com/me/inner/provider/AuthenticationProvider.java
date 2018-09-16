@@ -26,6 +26,7 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+        logger.debug("Execute Method additionalAuthenticationChecks...");
 
         if (StringUtils.isBlank(userDetails.getPassword())) {
             throw new BadCredentialsException("password is empty.");
@@ -39,12 +40,15 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws UsernameNotFoundException {
+        logger.debug("Execute Method retrieveUser...");
+
         return userDetailsService.loadUserByUsername(username);
     }
 
     @Override
     protected Authentication createSuccessAuthentication(Object principal,
                                                          Authentication authentication, UserDetails user) {
+        logger.debug("Execute Method createSuccessAuthentication...");
 
         CustomAuthenticationToken result = new CustomAuthenticationToken(principal, authentication.getCredentials());
         result.setAuthorities((List<GrantedAuthority>) user.getAuthorities());

@@ -13,6 +13,18 @@
             crtBy_m AS createBy
         FROM ${tablePrefix}user WHERE username_m = #{username} AND enabled_c = 'Y'
     </select>
+    
+    <select id="listRole2Resource" resultType="com.me.inner.dto.Role2ResSecDTO">
+        SELECT
+            role.roleId_n AS roleId,
+            role.roleName_m AS roleName,
+            res.resId_n AS resourceId,
+            res.resPath_x AS path
+        FROM ${tablePrefix}role2res rr
+        LEFT JOIN ${tablePrefix}role role ON rr.roleId_n = role.roleId_n
+        LEFT JOIN ${tablePrefix}resource res ON rr.resId_n = res.resId_n
+        WHERE role.enabled_c = 'A' AND res.enabled_c = 'A'
+    </select>
 
     <select id="getHomePageByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.ResourceSecDTO">
         SELECT

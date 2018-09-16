@@ -1,10 +1,7 @@
 package com.me.inner.mapper;
 
 
-import com.me.inner.dto.BaseUserDetails;
-import com.me.inner.dto.LoginHistorySecDTO;
-import com.me.inner.dto.ResourceSecDTO;
-import com.me.inner.dto.RoleSecDTO;
+import com.me.inner.dto.*;
 
 import java.util.List;
 
@@ -20,6 +17,8 @@ public interface SecurityMapper {
     List<RoleSecDTO> listRoleByUsername(String username);
 
     List<ResourceSecDTO> listResourceByUsername(String username);
+
+    List<Role2ResSecDTO> listRole2Resource();
 
     void saveLoginHistory(LoginHistorySecDTO loginHistorySecDTO);
 }

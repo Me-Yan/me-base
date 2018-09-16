@@ -1,10 +1,9 @@
 package com.me.inner.service;
 
-import com.me.inner.dto.BaseUserDetails;
-import com.me.inner.dto.LoginHistorySecDTO;
-import com.me.inner.dto.ResourceSecDTO;
-import com.me.inner.dto.RoleSecDTO;
+import com.me.inner.dto.*;
 import com.me.inner.mapper.SecurityMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,10 +18,14 @@ import java.util.List;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
+    private Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+
     @Autowired
     private SecurityMapper securityMapper;
 
     public BaseUserDetails getUserByUsername(String username) {
+        logger.debug("Execute Method getUserByUsername...");
+
         BaseUserDetails user = securityMapper.getUserByUsername(username);
         if (null != user) {
             ResourceSecDTO homeResource = securityMapper.getHomePageByUsername(username);
@@ -46,7 +49,15 @@ public class SecurityServiceImpl implements SecurityService {
         return user;
     }
 
+    public List<Role2ResSecDTO> listRole2Resource() {
+        logger.debug("Execute Method listRoleByResource...");
+
+        return securityMapper.listRole2Resource();
+    }
+
     public void saveLoginHistory(LoginHistorySecDTO loginHistory) {
+        logger.debug("Execute Method saveLoginHistory...");
+
         securityMapper.saveLoginHistory(loginHistory);
     }
 }

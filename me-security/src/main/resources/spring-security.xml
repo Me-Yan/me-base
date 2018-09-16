@@ -27,4 +27,8 @@
         <property name="errorPage" value="/accessDenied" />
     </bean>
 
+    <bean id="securityMetadataSource" class="com.me.inner.core.CustomSecurityMetadataSource"></bean>
+
+    <bean id="accessSecurityManager" class="com.me.inner.manager.AccessSecurityManager"></bean>
+
 </beans>
