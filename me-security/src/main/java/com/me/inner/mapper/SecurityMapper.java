@@ -12,6 +12,8 @@ public interface SecurityMapper {
 
     BaseUserDetails getUserByUsername(String username);
 
+    UserInfoSecDTO getUserInfoByUsername(String username);
+
     ResourceSecDTO getHomePageByUsername(String username);
 
     List<RoleSecDTO> listRoleByUsername(String username);

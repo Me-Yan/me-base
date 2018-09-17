@@ -13,7 +13,7 @@ public class CustomAuthenticationToken extends UsernamePasswordAuthenticationTok
     private List<GrantedAuthority> authorities;
     private Object principal;
     private String credentials;
-    private Boolean authenticated = false;
+    private boolean authenticated = false;
     private String name;
 
     public CustomAuthenticationToken(Object principal, Object credentials) {
@@ -47,11 +47,11 @@ public class CustomAuthenticationToken extends UsernamePasswordAuthenticationTok
         this.credentials = credentials;
     }
 
-    public Boolean getAuthenticated() {
+    public boolean getAuthenticated() {
         return authenticated;
     }
 
-    public void setAuthenticated(Boolean authenticated) {
+    public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
     }
 

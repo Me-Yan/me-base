@@ -90,6 +90,13 @@ public class UserServiceImpl implements UserService {
 
         userMapper.saveUser(user);
 
+        UserInfoDTO userInfo = user.getUserInfo();
+        userInfo.setCreateDate(curDate);
+        userInfo.setCreateBy(userDetails.getUsername());
+        userInfo.setUserId(user.getUserId());
+
+        userMapper.saveUserInfo(userInfo);
+
         if (!CollectionUtils.isEmpty(user.getRoleList())) {
             List<User2RoleDTO> user2RoleList = Lists.newArrayList();
             for (RoleDTO role : user.getRoleList()) {

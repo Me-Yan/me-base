@@ -11,6 +11,7 @@ public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = -4398457886143682753L;
 
+    // DB Columns
     private Integer userId;
     private String username;
     private String password;
@@ -20,8 +21,10 @@ public class UserDTO implements Serializable {
     private Date updateDate;
     private String updateBy;
 
+    // for operation and view
     private List<RoleDTO> roleList;
     private List<ResourceDTO> resourceList;
+    private UserInfoDTO userInfo;
 
     public Integer getUserId() {
         return userId;
@@ -103,4 +106,11 @@ public class UserDTO implements Serializable {
         this.resourceList = resourceList;
     }
 
+    public UserInfoDTO getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfoDTO userInfo) {
+        this.userInfo = userInfo;
+    }
 }

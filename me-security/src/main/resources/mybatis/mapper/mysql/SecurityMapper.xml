@@ -13,6 +13,26 @@
             crtBy_m AS createBy
         FROM ${tablePrefix}user WHERE username_m = #{username} AND enabled_c = 'Y'
     </select>
+
+    <select id="getUserInfoByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.UserInfoSecDTO">
+        SELECT
+            info.infoId_n AS infoId,
+            info.userId_n AS userId,
+            info.name_m AS name,
+            info.sex_c AS sex,
+            info.age_n AS age,
+            info.from_m AS from,
+            info.birth_d AS birthDay,
+            info.school_m AS school,
+            info.phone_x AS phone,
+            info.email_x AS email,
+            info.weight_n AS weight,
+            info.height_n AS height,
+            info.intro_x AS introduction
+        FROM ${tablePrefix}userinfo info
+        LEFT JOIN ${tablePrefix}user user ON info.userId_n = user.userId_n
+        WHERE user.enabled_c = 'Y' AND user.username_m = #{username}
+    </select>
     
     <select id="listRole2Resource" resultType="com.me.inner.dto.Role2ResSecDTO">
         SELECT

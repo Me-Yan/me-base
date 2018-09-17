@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface UserMapper {
 
+    UserDTO getUserByUserId(Integer userId);
+
     Integer countUserByRole(String roleName);
 
     List<UserDTO> listUserByRole(@Param("roleName") String roleName, @Param("pagination") PaginationDTO pagination);
@@ -23,6 +25,8 @@ public interface UserMapper {
     List<LoginHistoryDTO> listLoginHistory(PaginationDTO pagination);
 
     void saveUser(UserDTO user);
+
+    void saveUserInfo(UserInfoDTO userInfo);
 
     void saveUser2Role(List<User2RoleDTO> user2RoleList);
 

@@ -10,17 +10,46 @@
         <result property="enabled" column="enabled_c" jdbcType="CHAR"/>
         <result property="createDate" column="crtOn_dt" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="crtBy_m" jdbcType="VARCHAR"/>
-        <collection property="roleList" column="userId_n" ofType="com.me.inner.dto.RoleDTO" javaType="java.util.ArrayList">
-            <id property="roleId" column="roleId_n" jdbcType="INTEGER"/>
-            <result property="roleName" column="roleName_m" jdbcType="VARCHAR"/>
-        </collection>
-        <collection property="resourceList" column="userId_n" ofType="com.me.inner.dto.ResourceDTO" javaType="java.util.ArrayList">
-            <id property="resourceId" column="resId_n" jdbcType="INTEGER"/>
-            <result property="type" column="resType_x" jdbcType="VARCHAR"/>
-            <result property="path" column="resPath_x" jdbcType="VARCHAR"/>
-            <result property="description" column="resDesc_x" jdbcType="VARCHAR"/>
-        </collection>
+        <association property="userInfo" javaType="com.me.inner.dto.UserInfoDTO">
+            <id property="infoId" column="infoId_n" jdbcType="INTEGER"/>
+            <result property="userId" column="userId_n" jdbcType="INTEGER"/>
+            <result property="name" column="name_m" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex_c" jdbcType="CHAR"/>
+            <result property="age" column="age_n" jdbcType="INTEGER"/>
+            <result property="from" column="from_m" jdbcType="VARCHAR"/>
+            <result property="birthDay" column="birth_d" jdbcType="DATE"/>
+            <result property="school" column="school_m" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone_x" jdbcType="VARCHAR"/>
+            <result property="email" column="email_x" jdbcType="VARCHAR"/>
+            <result property="weight" column="weight_n" jdbcType="DOUBLE"/>
+            <result property="height" column="height_n" jdbcType="DOUBLE"/>
+            <result property="introduction" column="intro_x" jdbcType="VARCHAR"/>
+        </association>
     </resultMap>
+    
+    <select id="getUserByUserId" parameterType="java.lang.Integer" resultMap="userMap">
+        SELECT
+            u.userId_n,
+            u.username_m,
+            u.enabled_c,
+            u.crtOn_dt,
+            u.crtBy_m,
+            info.infoId_n,
+            info.name_m,
+            info.sex_c,
+            info.age_n,
+            info.from_m,
+            info.birth_d,
+            info.school_m,
+            info.phone_x,
+            info.email_x,
+            info.weight_n,
+            info.height_n,
+            info.intro_x
+        FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}userinfo info ON u.userId_n = info.userId_n
+        WHERE u.enabled_c = 'Y' AND u.userId_n = #{userId}
+    </select>
 
     <select id="countUserByRole" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT COUNT(1)
@@ -35,23 +64,30 @@
 
     <select id="listUserByRole" resultMap="userMap">
         SELECT DISTINCT
-            u.userId_n AS userId,
-            u.username_m AS username,
-            u.enabled_c AS enabled,
-            u.crtOn_dt AS createDate,
-            u.crtBy_m AS createBy,
-            r.roleId_n AS roleId,
-            r.roleName_m AS roleName,
-            u.resId_n AS resourceId,
-            u.resType_x AS type,
-            u.resPath_x AS path,
-            u.resDesc_x AS description
+            u.userId_n,
+            u.username_m,
+            u.enabled_c,
+            u.crtOn_dt,
+            u.crtBy_m,
+            info.infoId_n,
+            info.name_m,
+            info.sex_c,
+            info.age_n,
+            info.from_m,
+            info.birth_d,
+            info.school_m,
+            info.phone_x,
+            info.email_x,
+            info.weight_n,
+            info.height_n,
+            info.intro_x
         FROM ${tablePrefix}user u
+        LEFT JOIN ${tablePrefix}userinfo info ON u.userId_n = info.userId_n
         LEFT JOIN ${tablePrefix}user2role ur ON u.userId_n = ur.userId_n
-        LEFT JOIN ${tablePrefix}role r ON ur.roleId_n = r.roleId_n
-        WHERE u.enabled_c = 'Y'
+        LEFT JOIN ${tablePrefix}role role ON ur.roleId_n = role.roleId_n
+        WHERE u.enabled_c = 'Y' AND role.enabled_c = 'Y'
         <if test="roleName!='' and roleName!=null">
-            AND r.roleName_m = #{roleName}
+            AND role.roleName_m = #{roleName}
         </if>
          LIMIT #{pagination,begin}, #{pagination,limit}
     </select>
@@ -103,6 +139,47 @@
             #{enabled, jdbcType=CHAR},
             #{createDate, jdbcType=TIMESTAMP},
             #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="saveUserInfo" parameterType="com.me.inner.dto.UserInfoDTO" keyColumn="infoId_n" keyProperty="infoId" useGeneratedKeys="true">
+        INSERT INTO ${tablePrefix}userinfo
+        (
+            userId_n,
+            name_m,
+            sex_c,
+            age_n,
+            from_m,
+            birth_d,
+            school_m,
+            phone_x,
+            email_x,
+            weight_n,
+            height_n,
+            intro_x,
+            crtOn_dt,
+            crtBy_m,
+            updOn_dt,
+            updBy_m
+        )
+        VALUES
+        (
+            #{userId, jdbcType=INTEGER},
+            #{name, jdbcType=VARCHAR},
+            #{sex, jdbcType=CHAR},
+            #{age, jdbcType=INTEGER},
+            #{from, jdbcType=VARCHAR},
+            #{birthDay, jdbcType=DATE},
+            #{school, jdbcType=VARCHAR},
+            #{phone, jdbcType=VARCHAR},
+            #{email, jdbcType=VARCHAR},
+            #{weight, jdbcType=DOUBLE},
+            #{height, jdbcType=DOUBLE},
+            #{introduction, jdbcType=VARCHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR},
+            #{updateDate, jdbcType=TIMESTAMP},
+            #{updateBy, jdbcType=VARCHAR}
         )
     </insert>
 
@@ -210,9 +287,9 @@
 
     <update id="resetPassword" parameterType="com.me.inner.dto.UserDTO">
         UPDATE ${tablePrefix}user SET
-        password_x = #{password},
-        updOn_dt = #{updateDate},
-        updBy_m = #{updateBy}
+            password_x = #{password},
+            updOn_dt = #{updateDate},
+            updBy_m = #{updateBy}
         WHERE userId_n = #{userId}
     </update>
 
