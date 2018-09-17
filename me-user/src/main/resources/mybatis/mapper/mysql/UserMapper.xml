@@ -16,7 +16,7 @@
             <result property="name" column="name_m" jdbcType="VARCHAR"/>
             <result property="sex" column="sex_c" jdbcType="CHAR"/>
             <result property="age" column="age_n" jdbcType="INTEGER"/>
-            <result property="from" column="from_m" jdbcType="VARCHAR"/>
+            <result property="fromPlace" column="fromPlace_m" jdbcType="VARCHAR"/>
             <result property="birthDay" column="birth_d" jdbcType="DATE"/>
             <result property="school" column="school_m" jdbcType="VARCHAR"/>
             <result property="phone" column="phone_x" jdbcType="VARCHAR"/>
@@ -38,7 +38,7 @@
             info.name_m,
             info.sex_c,
             info.age_n,
-            info.from_m,
+            info.fromPlace_m,
             info.birth_d,
             info.school_m,
             info.phone_x,
@@ -73,7 +73,7 @@
             info.name_m,
             info.sex_c,
             info.age_n,
-            info.from_m,
+            info.fromPlace_m,
             info.birth_d,
             info.school_m,
             info.phone_x,
@@ -149,7 +149,7 @@
             name_m,
             sex_c,
             age_n,
-            from_m,
+            fromPlace_m,
             birth_d,
             school_m,
             phone_x,
@@ -168,7 +168,7 @@
             #{name, jdbcType=VARCHAR},
             #{sex, jdbcType=CHAR},
             #{age, jdbcType=INTEGER},
-            #{from, jdbcType=VARCHAR},
+            #{fromPlace, jdbcType=VARCHAR},
             #{birthDay, jdbcType=DATE},
             #{school, jdbcType=VARCHAR},
             #{phone, jdbcType=VARCHAR},

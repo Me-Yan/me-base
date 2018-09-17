@@ -21,7 +21,7 @@
             info.name_m AS name,
             info.sex_c AS sex,
             info.age_n AS age,
-            info.from_m AS from,
+            info.fromPlace_m AS fromPlace,
             info.birth_d AS birthDay,
             info.school_m AS school,
             info.phone_x AS phone,

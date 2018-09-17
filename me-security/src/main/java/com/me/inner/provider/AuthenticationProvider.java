@@ -50,9 +50,9 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
                                                          Authentication authentication, UserDetails user) {
         logger.debug("Execute Method createSuccessAuthentication...");
 
-        CustomAuthenticationToken result = new CustomAuthenticationToken(principal, authentication.getCredentials());
+        CustomAuthenticationToken result = (CustomAuthenticationToken) authentication;
         result.setAuthorities((List<GrantedAuthority>) user.getAuthorities());
-        result.setAuthenticated(Boolean.TRUE);
+        result.setAuthenticated(true);
         result.setPrincipal(user);
         result.setName(user.getUsername());
         result.setCredentials(authentication.getCredentials().toString());

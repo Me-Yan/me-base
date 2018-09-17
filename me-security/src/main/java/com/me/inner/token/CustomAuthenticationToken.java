@@ -55,6 +55,10 @@ public class CustomAuthenticationToken extends UsernamePasswordAuthenticationTok
         this.authenticated = authenticated;
     }
 
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
     @Override
     public String getName() {
         return name;

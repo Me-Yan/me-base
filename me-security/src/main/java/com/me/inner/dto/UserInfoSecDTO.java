@@ -16,7 +16,7 @@ public class UserInfoSecDTO implements Serializable {
     private String name;
     private String sex;
     private Integer age;
-    private String from;
+    private String fromPlace;
     private Date birthDay;
     private String school;
     private String phone;
@@ -69,12 +69,12 @@ public class UserInfoSecDTO implements Serializable {
         this.age = age;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromPlace() {
+        return fromPlace;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromPlace(String fromPlace) {
+        this.fromPlace = fromPlace;
     }
 
     public Date getBirthDay() {
