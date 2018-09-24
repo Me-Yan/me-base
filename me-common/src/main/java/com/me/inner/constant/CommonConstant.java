@@ -38,4 +38,21 @@ public class CommonConstant {
         String ACTIVE = "A";
         String IN_ACTIVE = "I";
     }
+
+    /**
+     * datetime pattern
+     */
+    public interface Pattern {
+        String YYYY_MM_DD = "yyyy-MM-dd";
+        String DD_MM_YYYY = "dd-MM-yyyy";
+        String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+        String DD_MM_YYYY_HH_MM = "dd-MM-yyyy HH:mm";
+
+        String YYYYMMDD = "yyyy/MM/dd";
+        String DDMMYYYY = "dd/MM/yyyy";
+        String YYYYMMDD_HH_MM = "yyyy/MM/dd HH:mm";
+        String DDMMYYYY_HH_MM = "dd/MM/yyyy HH:mm";
+
+        String HH_MM = "HH:mm";
+    }
 }

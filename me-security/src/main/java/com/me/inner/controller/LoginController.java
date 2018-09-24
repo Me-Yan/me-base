@@ -1,4 +1,4 @@
-package com.me.inner.Controller;
+package com.me.inner.controller;
 
 import com.google.common.collect.Maps;
 import com.me.inner.dto.BaseUserDetails;

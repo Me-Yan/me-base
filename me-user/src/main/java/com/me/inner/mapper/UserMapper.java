@@ -47,4 +47,9 @@ public interface UserMapper {
     void deleteResource(Integer resourceId);
 
     void resetPassword(UserDTO user);
+
+    // be using
+    void updatePassword(UserDTO user);
+
+    void updateUserInfo(UserInfoDTO userInfo);
 }

@@ -5,11 +5,13 @@ import com.me.inner.constant.CommonConstant;
 import com.me.inner.dto.*;
 import com.me.inner.mapper.UserMapper;
 import com.me.inner.util.CommonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -177,5 +179,17 @@ public class UserServiceImpl implements UserService {
         user.setUpdateDate(new Date());
 
         userMapper.resetPassword(user);
+    }
+
+    public void updateUser(UserDTO user) {
+        logger.debug("Execute Method updateUser...");
+
+        if (StringUtils.isNotBlank(user.getPassword())) {
+            String originPassword = user.getPassword();
+            String presentedPassword = CommonUtil.encodePassword(originPassword);
+            user.setPassword(presentedPassword);
+            userMapper.updatePassword(user);
+        }
+        userMapper.updateUserInfo(user.getUserInfo());
     }
 }

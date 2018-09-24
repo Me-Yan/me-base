@@ -31,4 +31,7 @@ public interface UserService {
     void deleteResource(Integer resourceId);
 
     void updatePassword(UserDTO user);
+
+    // be using
+    void updateUser(UserDTO user);
 }
