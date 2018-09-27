@@ -23,7 +23,7 @@
         <if test="type!=null and type!=''">
             AND type_x = #{type}
         </if>
-        LIMIT #{pagination.begin}, #{pagination.limit}
+        ORDER BY codeId_n ASC
     </select>
     
     <select id="getCodeByTypeAndName" resultType="com.me.inner.dto.CodeDTO">

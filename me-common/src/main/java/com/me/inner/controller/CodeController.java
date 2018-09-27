@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,14 +50,10 @@ public class CodeController {
 
     @RequestMapping("listCodeData")
     @ResponseBody
-    public PaginationDTO listCodeData(String type, HttpServletRequest request) {
+    public List<CodeDTO> listCodeData(@RequestParam(name = "type", required = false) String type) {
         logger.debug("Execute Method listCodeData...");
 
-        PaginationDTO pagination = CommonUtil.packagePagination(request);
-
-        codeService.listCodeByType(type, pagination);
-
-        return pagination;
+        return codeService.listCodeByType(type);
     }
 
     @RequestMapping("add")

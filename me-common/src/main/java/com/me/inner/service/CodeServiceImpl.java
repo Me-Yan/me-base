@@ -32,19 +32,10 @@ public class CodeServiceImpl implements CodeService {
         return codeMapper.listType();
     }
 
-    public PaginationDTO listCodeByType(String type, PaginationDTO pagination) {
+    public List<CodeDTO> listCodeByType(String type) {
         logger.debug("Execute Method listCodeByType...");
 
-        List<CodeDTO> codeList = codeMapper.listCodeByType(type, pagination);
-
-        Integer count = CollectionUtils.isEmpty(codeList)?0:codeList.size();
-        Integer totalPage = count / pagination.getLimit();
-
-        pagination.setCount(count);
-        pagination.setTotalPage(totalPage);
-        pagination.setDataList(codeList);
-
-        return pagination;
+        return codeMapper.listCodeByType(type);
     }
 
     public CodeDTO getCodeByTypeAndName(String type, String name) {

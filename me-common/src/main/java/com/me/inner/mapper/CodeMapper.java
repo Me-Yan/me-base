@@ -13,7 +13,7 @@ public interface CodeMapper {
 
     List<String> listType();
 
-    List<CodeDTO> listCodeByType(@Param("type") String type, @Param("pagination") PaginationDTO pagination);
+    List<CodeDTO> listCodeByType(@Param("type") String type);
 
     CodeDTO getCodeByTypeAndName(@Param("type") String type, @Param("name") String name);
 

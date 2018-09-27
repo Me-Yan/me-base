@@ -13,7 +13,7 @@ public interface CodeService {
 
     List<String> listType();
 
-    PaginationDTO listCodeByType(String type, PaginationDTO pagination);
+    List<CodeDTO> listCodeByType(String type);
 
     CodeDTO getCodeByTypeAndName(String type, String name);
 
