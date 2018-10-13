@@ -1,26 +1,18 @@
 package com.me.inner.controller;
 
-import com.me.inner.constant.CommonConstant;
 import com.me.inner.dto.CodeDTO;
-import com.me.inner.dto.PaginationDTO;
 import com.me.inner.dto.ResponseData;
 import com.me.inner.service.CodeService;
-import com.me.inner.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +31,7 @@ public class CodeController {
     public ModelAndView listCode() {
         logger.debug("Execute Method listCode...");
 
-        ModelAndView model = new ModelAndView("code/listCode");
+        ModelAndView model = new ModelAndView("code/list");
 
         List<String> codeTypeList = codeService.listType();
 
@@ -56,36 +48,42 @@ public class CodeController {
         return codeService.listCodeByType(type);
     }
 
-    @RequestMapping("add")
-    public ModelAndView addCode(@ModelAttribute("codeForm") CodeDTO codeForm) {
-        logger.debug("Execute Method addCode...");
+    @RequestMapping("new")
+    @ResponseBody
+    public ResponseData newCode(@ModelAttribute("codeForm") CodeDTO codeForm) {
+        logger.debug("Execute Method newCode...");
 
-        return new ModelAndView("code/addCode");
+        try {
+            codeService.saveCode(codeForm);
+        } catch (Exception e) {
+            logger.error("occur a error when new code", e);
+            return new ResponseData(false);
+        }
+
+        return new ResponseData(true);
     }
 
-    @RequestMapping("submit")
-    public ModelAndView submitCode(@ModelAttribute("codeForm") CodeDTO codeForm) {
-        logger.debug("Execute Method submitCode...");
+    @RequestMapping("update")
+    @ResponseBody
+    public ResponseData updateCode(@ModelAttribute("codeForm") CodeDTO codeForm) {
+        logger.debug("Execute Method updateCode...");
 
-        return new ModelAndView("code/addCode");
-    }
+        try {
+            codeService.updateCode(codeForm);
+        } catch (Exception e) {
+            logger.error("occur a error when new code", e);
+            return new ResponseData(false);
+        }
 
-    @RequestMapping("confirm")
-    public ModelAndView confirmCode(@ModelAttribute("codeForm") CodeDTO codeForm, RedirectAttributes attributes) {
-        logger.debug("Execute Method confirmCode...");
-
-        codeService.saveCode(codeForm);
-
-        return new ModelAndView("redirect:/code/list");
+        return new ResponseData(true);
     }
 
     @RequestMapping("delete")
     @ResponseBody
-    public ResponseData deleteCode(@ModelAttribute("codeId") Integer codeId) {
+    public ResponseData deleteCode(@RequestParam(name = "codeId") Integer codeId) {
         logger.debug("Execute Method deleteCode...");
 
         try {
-
             codeService.deleteCode(codeId);
         } catch (Exception e) {
             logger.error("occur a error when delete a code", e);

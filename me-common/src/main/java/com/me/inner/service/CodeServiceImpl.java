@@ -49,11 +49,17 @@ public class CodeServiceImpl implements CodeService {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        code.setActive(CommonConstant.YES_NO.YES);
+        code.setActive(CommonConstant.CodeStatus.ACTIVE);
         code.setCreateDate(new Date());
         code.setCreateBy(userDetails.getUsername());
 
         codeMapper.saveCode(code);
+    }
+
+    public void updateCode(CodeDTO code) {
+        logger.debug("Execute Method updateCode");
+
+        codeMapper.updateCode(code);
     }
 
     public void deleteCode(Integer codeId) {

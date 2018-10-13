@@ -55,4 +55,10 @@ public class CommonConstant {
 
         String HH_MM = "HH:mm";
     }
+
+    public interface CodeStatus {
+        String ACTIVE = "A";        // 可使用且可修改的
+        String IN_ACTIVE = "I";    // 不可使用的
+        String STABLED = "S";      // 可使用且不可修改的
+    }
 }

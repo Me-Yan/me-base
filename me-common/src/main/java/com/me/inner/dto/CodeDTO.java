@@ -10,6 +10,7 @@ public class CodeDTO implements Serializable{
 
     private static final long serialVersionUID = -370963930339936279L;
 
+    // DB Columns
     private Integer codeId;
     private String type;
     private String name;
@@ -18,6 +19,17 @@ public class CodeDTO implements Serializable{
     private String active;
     private String createBy;
     private Date createDate;
+
+    // View And Operation
+    private String createDateStr;
+
+    public String getCreateDateStr() {
+        return createDateStr;
+    }
+
+    public void setCreateDateStr(String createDateStr) {
+        this.createDateStr = createDateStr;
+    }
 
     public Integer getCodeId() {
         return codeId;

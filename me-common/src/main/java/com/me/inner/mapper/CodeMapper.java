@@ -19,5 +19,7 @@ public interface CodeMapper {
 
     void saveCode(CodeDTO code);
 
+    void updateCode(CodeDTO code);
+
     void deleteCode(Integer codeId);
 }
